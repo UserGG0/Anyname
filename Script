@@ -1,0 +1,170 @@
+
+MOST OF THIS ISNT CODED ADD YOUR OWN CODE!
+
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+-- Window Initialization
+local Window = Rayfield:CreateWindow({
+    Name = "Test Game",
+    LoadingTitle = "Game Tester",
+    LoadingSubtitle = "Arize",
+    ConfigurationSaving = {
+        Enabled = false, -- Set to true if you want to enable configuration saving
+        FolderName = nil, -- Create a custom folder for your hub/game
+        FileName = "YourHubFileName"
+    },
+    Discord = {
+        Enabled = false, -- Set to true if you have a Discord server
+        Invite = ".gg/Blabla", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+        RememberJoins = true -- Set this to false to make them join the Discord every time they load it up
+    },
+    KeySystem = true, -- Set to true to use the key system
+    KeySettings = {
+        Title = "Key | YourHubName",  -- if you want
+        Subtitle = "Key System",
+        Note = "Key In Discord Server",
+        FileName = "YourKeyFileName", -- Recommended to use something unique as other scripts using Rayfield may overwrite your key file
+        SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+        GrabKeyFromSite = true, -- If true, set Key below to the RAW site you want Rayfield to get the key from
+        Key = {"https://pastebin.com/raw/YourPastebinKey"} -- List of keys accepted by the system, can be RAW file links (pastebin, github, etc.) or simple strings ("key1", "key2")
+    }
+})
+
+-- Main Tab and Section Initialization
+local MainTab = Window:CreateTab("🏠 Home", nil) -- Title, Image
+local MainSection = MainTab:CreateSection("Main")
+
+-- Notification Example
+Rayfield:Notify({
+    Title = "Script Executed",
+    Content = "Your GUI is now loaded",
+    Duration = 5,
+    Image = 13047715178,
+    Actions = {
+        Ignore = {
+            Name = "Okay!",
+            Callback = function()
+                print("The user tapped Okay!")
+            end
+        }
+    }
+})
+
+-- Infinite Jump Toggle Button
+local Button = MainTab:CreateButton({
+    Name = "Infinite Jump Toggle",
+    Callback = function()
+        _G.infinjump = not _G.infinjump
+
+        if _G.infinJumpStarted == nil then
+            _G.infinJumpStarted = true
+            game.StarterGui:SetCore("SendNotification", {Title="YourHubName"; Text="Infinite Jump Activated!"; Duration=5;})
+
+            local plr = game:GetService('Players').LocalPlayer
+            local m = plr:GetMouse()
+            m.KeyDown:connect(function(k)
+                if _G.infinjump then
+                    if k:byte() == 32 then
+                        local humanoid = game:GetService'Players'.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
+                        humanoid:ChangeState('Jumping')
+                        wait()
+                        humanoid:ChangeState('Seated')
+                    end
+                end
+            end)
+        end
+    end
+})
+
+-- WalkSpeed Slider
+local WalkSpeedSlider = MainTab:CreateSlider({
+    Name = "WalkSpeed Slider",
+    Range = {1, 350},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = 16,
+    Flag = "sliderws",
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end
+})
+
+-- JumpPower Slider
+local JumpPowerSlider = MainTab:CreateSlider({
+    Name = "JumpPower Slider",
+    Range = {1, 350},
+    Increment = 1,
+    Suffix = "Power",
+    CurrentValue = 50,
+    Flag = "sliderjp",
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
+})
+
+-- Area Selection Dropdown
+local AreaDropdown = MainTab:CreateDropdown({
+    Name = "Select Area",
+    Options = {"Area 1", "Area 2", "Area 3"},
+    CurrentOption = {"Area 1"},
+    MultipleOptions = false,
+    Flag = "dropdownarea",
+    Callback = function(Option)
+        print("Selected Area: " .. Option)
+    end
+})
+
+-- WalkSpeed Input
+local WalkSpeedInput = MainTab:CreateInput({
+    Name = "Walkspeed Input",
+    PlaceholderText = "Enter WalkSpeed (1-500)",
+    RemoveTextAfterFocusLost = true,
+    Callback = function(Text)
+        local value = tonumber(Text)
+        if value then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+        end
+    end
+})
+
+-- Other Section
+local OtherSection = MainTab:CreateSection("Other")
+
+-- Auto Farm Toggle
+local AutoFarmToggle = MainTab:CreateToggle({
+    Name = "Auto Farm",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        print("Auto Farm Toggled: " .. tostring(Value))
+    end
+})
+
+-- Teleports Tab
+local TPTab = Window:CreateTab("🏝 Teleports", nil)
+
+-- Teleport Buttons
+local Button1 = TPTab:CreateButton({
+    Name = "Teleport to Area 1",
+    Callback = function()
+        -- Add teleport code here
+    end
+})
+
+local Button2 = TPTab:CreateButton({
+    Name = "Teleport to Area 2",
+    Callback = function()
+        -- Add teleport code here
+    end
+})
+
+local Button3 = TPTab:CreateButton({
+    Name = "Teleport to Area 3",
+    Callback = function()
+        -- Add teleport code here
+    end
+})
+
+-- Misc Tab
+local MiscTab = Window:CreateTab("🎲 Misc", nil)
